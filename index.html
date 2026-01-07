@@ -3,336 +3,161 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Radar de Ofertas | Achadinhos</title>
+    <title>Minha Loja de Ofertas</title>
     <style>
         /* --- ESTILOS (CSS) --- */
-        :root {
-            --primary: #ffe600; /* Amarelo ML */
-            --blue: #2d3277;    /* Azul ML */
-            --green: #00a650;   /* Verde Preço */
-            --bg: #ededed;
-        }
-
-        body {
-            font-family: 'Proxima Nova', -apple-system, 'Helvetica Neue', Helvetica, Roboto, Arial, sans-serif;
-            background-color: var(--bg);
-            margin: 0;
-            padding: 20px;
-            color: #333;
-        }
-
-        header {
-            text-align: center;
-            margin-bottom: 40px;
-            padding-top: 20px;
-        }
-
-        h1 {
-            color: var(--blue);
-            margin: 0;
-            font-size: 2.5rem;
-        }
-
-        p.subtitle {
-            color: #666;
-            font-size: 1.1rem;
-            margin-top: 10px;
-        }
-
-        /* Botão de Atualizar */
-        .controls {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        button.btn-refresh {
-            background-color: var(--blue);
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            font-size: 16px;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: background 0.3s;
-            font-weight: bold;
-        }
-
-        button.btn-refresh:hover {
-            background-color: #1a1e4d;
-        }
-
-        /* Grid de Produtos */
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        /* Card do Produto */
-        .card {
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 1px 2px 0 rgba(0,0,0,.12);
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            transition: transform 0.2s, box-shadow 0.2s;
-            position: relative;
-        }
-
-        .card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
-        }
-
-        .image-container {
-            height: 220px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            border-bottom: 1px solid #f0f0f0;
-            background: #fff;
-        }
-
-        .image-container img {
-            max-height: 100%;
-            max-width: 100%;
-            object-fit: contain;
-        }
-
-        .info {
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            flex-grow: 1;
-        }
-
-        .discount-badge {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background-color: var(--green);
-            color: white;
-            font-size: 12px;
-            font-weight: bold;
-            padding: 4px 8px;
-            border-radius: 4px;
-        }
-
-        .title {
-            font-size: 14px;
-            line-height: 1.3;
-            color: #333;
-            margin-bottom: 12px;
-            height: 38px; /* Limita a 2 linhas aprox */
-            overflow: hidden;
-        }
-
-        .old-price {
-            font-size: 13px;
-            color: #999;
-            text-decoration: line-through;
-            margin-bottom: 2px;
-        }
-
-        .price-container {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-
-        .price {
-            font-size: 24px;
-            font-weight: 400;
-            color: #333;
-        }
-
-        .installments {
-            font-size: 12px;
-            color: var(--green);
-            margin-bottom: 15px;
-        }
-
-        .btn-buy {
-            margin-top: auto;
-            display: block;
-            width: 100%;
-            padding: 12px;
-            background: var(--blue);
-            color: white;
-            text-align: center;
-            text-decoration: none;
-            border-radius: 6px;
-            font-weight: bold;
-            transition: background 0.2s;
-        }
-
-        .btn-buy:hover {
-            background-color: #242861;
-        }
-
-        /* Loading e Mensagens */
-        .status-msg {
-            text-align: center;
-            font-size: 18px;
-            color: #666;
-            margin: 20px;
-            min-height: 50px;
-        }
+        :root { --primary: #ffe600; --blue: #2d3277; --bg: #f5f5f5; }
+        body { font-family: sans-serif; background-color: var(--bg); margin: 0; padding: 20px; }
         
-        .error-log {
-            color: #d9534f;
-            font-size: 14px;
-            margin-top: 10px;
+        header { text-align: center; margin-bottom: 30px; }
+        h1 { color: var(--blue); margin: 0; }
+        
+        .controls { text-align: center; margin-bottom: 20px; }
+        button { background: var(--blue); color: white; border: none; padding: 12px 25px; font-size: 16px; border-radius: 6px; cursor: pointer; }
+        button:hover { background: #1a1e4d; }
+
+        .status-bar { text-align: center; margin: 10px; padding: 10px; font-weight: bold; color: #555; }
+
+        /* GRID */
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; max-width: 1200px; margin: 0 auto; }
+        
+        /* CARD */
+        .card { background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.1); display: flex; flex-direction: column; position: relative; }
+        .discount { position: absolute; top: 10px; right: 10px; background: #00a650; color: white; padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: bold; }
+        .img-box { height: 200px; padding: 15px; display: flex; align-items: center; justify-content: center; border-bottom: 1px solid #eee; }
+        .img-box img { max-height: 100%; max-width: 100%; }
+        .info { padding: 15px; flex-grow: 1; display: flex; flex-direction: column; }
+        .title { font-size: 14px; color: #333; margin-bottom: 10px; height: 36px; overflow: hidden; }
+        .old { text-decoration: line-through; color: #999; font-size: 12px; }
+        .price { font-size: 22px; color: #333; font-weight: bold; }
+        .btn-buy { margin-top: 10px; background: var(--blue); color: white; text-align: center; padding: 10px; text-decoration: none; border-radius: 4px; display: block; }
+
+        /* DEBUG SCREEN */
+        #debug-console { 
+            background: #000; color: #0f0; 
+            padding: 15px; margin-top: 50px; 
+            font-family: monospace; font-size: 12px; 
+            border-radius: 5px; min-height: 100px;
         }
     </style>
 </head>
 <body>
 
     <header>
-        <h1>⚡ Melhores Ofertas</h1>
-        <p class="subtitle">Monitorando descontos reais em tempo real</p>
+        <h1>⚡ Ofertas Imperdíveis</h1>
+        <p>As melhores promoções selecionadas</p>
     </header>
 
     <div class="controls">
-        <button class="btn-refresh" onclick="buscarOfertas()">🔄 Buscar Novas Ofertas</button>
+        <button onclick="iniciarSistema()">🔄 Carregar Ofertas</button>
     </div>
 
-    <div id="status" class="status-msg">Carregando promoções...</div>
+    <div id="status" class="status-bar">Clique no botão para buscar...</div>
     <div id="vitrine" class="grid"></div>
 
+    <div id="debug-console">
+        LOG DO SISTEMA:<br>
+    </div>
+
     <script>
-        // CONFIGURAÇÃO: Adicione ou remova termos aqui
-        const TERMOS_BUSCA = [
-            'iphone', 
-            'celular samsung', 
-            'notebook gamer', 
-            'air fryer', 
-            'smart tv 4k', 
-            'fone bluetooth', 
-            'cadeira gamer',
-            'playstation 5',
-            'alexa',
-            'tablet'
+        // SEUS TERMOS DE BUSCA
+        const TERMOS = ['iphone', 'notebook', 'air fryer', 'smart tv', 'fone bluetooth'];
+
+        // DADOS FALSOS (Para garantir que o site nunca fique vazio)
+        const DADOS_OFFLINE = [
+            { title: "iPhone 13 (Exemplo Offline)", price: 3500, original_price: 5000, thumbnail: "https://http2.mlstatic.com/D_NQ_NP_2X_736275-MLA51636136701_092022-F.webp", permalink: "#" },
+            { title: "TV Samsung 4K (Exemplo Offline)", price: 2100, original_price: 3200, thumbnail: "https://http2.mlstatic.com/D_NQ_NP_2X_943086-MLU72626573887_112023-F.webp", permalink: "#" },
+            { title: "Notebook Gamer (Exemplo Offline)", price: 4200, original_price: 6000, thumbnail: "https://http2.mlstatic.com/D_NQ_NP_2X_973149-MLA48633758994_122021-F.webp", permalink: "#" }
         ];
 
-        // Função para pausar (evita bloqueio da API)
-        const esperar = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+        // Função para escrever na caixinha preta lá embaixo
+        function log(msg) {
+            const consoleDiv = document.getElementById('debug-console');
+            consoleDiv.innerHTML += `> ${msg}<br>`;
+            console.log(msg);
+        }
 
-        async function buscarOfertas() {
+        async function iniciarSistema() {
             const vitrine = document.getElementById('vitrine');
-            const statusDiv = document.getElementById('status');
+            const status = document.getElementById('status');
             
-            vitrine.innerHTML = ''; // Limpa a tela
-            statusDiv.style.display = 'block';
-            
-            let todasOfertas = [];
-            let errosCount = 0;
+            vitrine.innerHTML = '';
+            status.innerText = 'Iniciando busca direta...';
+            log('--- NOVA BUSCA INICIADA ---');
 
-            for (const termo of TERMOS_BUSCA) {
-                statusDiv.innerHTML = `🔎 Procurando ofertas de: <strong>${termo}</strong>...`;
+            let produtosEncontrados = [];
+            let usarOffline = false;
 
+            // Tenta buscar cada termo
+            for (const termo of TERMOS) {
+                status.innerText = `Pesquisando: ${termo}...`;
+                
                 try {
-                    // Pausa de 1 segundo entre buscas para não sobrecarregar
-                    await esperar(1000); 
+                    // Pausa de 1.5s (ESSENCIAL para não ser bloqueado)
+                    await new Promise(r => setTimeout(r, 1500));
 
-                    // 1. URL Oficial do ML
-                    const urlML = `https://api.mercadolibre.com/sites/MLB/search?q=${encodeURIComponent(termo)}&limit=50`;
+                    // URL DIRETA (Sem Proxy)
+                    const url = `https://api.mercadolibre.com/sites/MLB/search?q=${encodeURIComponent(termo)}&limit=20`;
                     
-                    // 2. URL do Proxy (CorsProxy.io) para funcionar no GitHub Pages
-                    const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(urlML)}`;
+                    log(`Tentando conectar em: ${termo}`);
                     
-                    const resposta = await fetch(proxyUrl);
+                    const resp = await fetch(url);
                     
-                    if (!resposta.ok) throw new Error(`Status: ${resposta.status}`);
+                    if (!resp.ok) {
+                        throw new Error(`Erro HTTP: ${resp.status}`);
+                    }
 
-                    const dados = await resposta.json();
+                    const dados = await resp.json();
                     
-                    if (!dados.results) continue;
-
-                    // 3. FILTRO: Só aceita produtos com preço riscado (original_price)
-                    const promocao = dados.results.filter(produto => {
-                        return produto.original_price && 
-                               (produto.original_price > produto.price) &&
-                               ((1 - (produto.price / produto.original_price)) > 0.05); // Mínimo 5% de desconto
-                    });
-
-                    todasOfertas = [...todasOfertas, ...promocao];
+                    if (dados.results) {
+                        const filtrados = dados.results.filter(p => p.original_price && p.original_price > p.price);
+                        produtosEncontrados = [...produtosEncontrados, ...filtrados];
+                        log(`Sucesso! Achamos ${filtrados.length} promoções em ${termo}`);
+                    }
 
                 } catch (erro) {
-                    console.warn(`Erro ao buscar "${termo}":`, erro.message);
-                    errosCount++;
+                    log(`ERRO GRAVE em ${termo}: ${erro.message}`);
+                    usarOffline = true; // Se der erro em qualquer um, prepara o modo offline
                 }
             }
 
-            // 4. Ordena: Maiores descontos aparecem primeiro
-            todasOfertas.sort((a, b) => {
-                const descA = 1 - (a.price / a.original_price);
-                const descB = 1 - (b.price / b.original_price);
-                return descB - descA;
-            });
-
-            // Finaliza o carregamento
-            statusDiv.style.display = 'none';
-            renderizar(todasOfertas, errosCount);
+            // DECISÃO FINAL
+            status.innerText = 'Processamento concluído.';
+            
+            if (produtosEncontrados.length > 0) {
+                log('Exibindo produtos online encontrados.');
+                renderizar(produtosEncontrados);
+            } else {
+                log('Nenhum produto online carregou. ATIVANDO MODO OFFLINE.');
+                renderizar(DADOS_OFFLINE);
+                alert('Atenção: Não conseguimos conectar na API (provável bloqueio de rede). Mostrando produtos de exemplo.');
+            }
         }
 
-        function renderizar(lista, errosCount) {
+        function renderizar(lista) {
             const vitrine = document.getElementById('vitrine');
-            const statusDiv = document.getElementById('status');
-
-            // Se não achou nada
-            if (lista.length === 0) {
-                statusDiv.style.display = 'block';
-                statusDiv.innerHTML = `
-                    <h3>Nenhuma promoção encontrada agora.</h3>
-                    <p>Tente novamente mais tarde.</p>
-                    ${errosCount > 0 ? `<p class="error-log">Houve falha de conexão em ${errosCount} categorias.</p>` : ''}
-                `;
-                return;
-            }
-
-            // Se achou, monta os cards
-            lista.forEach(produto => {
-                const desconto = Math.round(100 - (produto.price / produto.original_price * 100));
+            
+            lista.forEach(p => {
+                const desconto = Math.round(100 - (p.price / p.original_price * 100));
+                const img = p.thumbnail.replace('I.jpg', 'W.jpg');
                 
-                // Tenta pegar imagem em alta resolução (Troca I.jpg por W.jpg)
-                let imagem = produto.thumbnail.replace('I.jpg', 'W.jpg');
-                
-                // Link do produto (IMPORTANTE: Aqui é onde entraria seu gerador de link de afiliado futuramente)
-                const linkFinal = produto.permalink; 
-
-                // Formatação de moeda
-                const precoFormatado = produto.price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-                const precoAntigoFormatado = produto.original_price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-
-                const html = `
+                vitrine.innerHTML += `
                     <div class="card">
-                        <div class="discount-badge">${desconto}% OFF</div>
-                        <div class="image-container">
-                            <img src="${imagem}" alt="${produto.title}" loading="lazy">
-                        </div>
+                        <div class="discount">${desconto}% OFF</div>
+                        <div class="img-box"><img src="${img}"></div>
                         <div class="info">
-                            <div class="title" title="${produto.title}">${produto.title}</div>
-                            <div class="old-price">${precoAntigoFormatado}</div>
-                            <div class="price-container">
-                                <div class="price">${precoFormatado}</div>
-                            </div>
-                            <div class="installments">em até 12x sem juros</div>
-                            <a href="${linkFinal}" target="_blank" class="btn-buy">VER OFERTA</a>
+                            <div class="title">${p.title}</div>
+                            <div class="old">R$ ${p.original_price}</div>
+                            <div class="price">R$ ${p.price}</div>
+                            <a href="${p.permalink}" class="btn-buy" target="_blank">Ver Oferta</a>
                         </div>
                     </div>
                 `;
-                vitrine.innerHTML += html;
             });
         }
 
-        // Inicia a busca automaticamente ao abrir a página
-        buscarOfertas();
+        // Tenta iniciar sozinho ao abrir
+        iniciarSistema();
 
     </script>
 </body>
